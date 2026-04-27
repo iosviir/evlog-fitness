@@ -9,15 +9,15 @@
 | Tamayo, Ibai | Navarrabiomed-HUN-UPNA | https://orcid.org/0000-0003-2860-3359 |
 | Librero, Julián | Navarrabiomed-HUN-UPNA | https://orcid.org/0000-0002-4859-9054 |
 | Enguita-Germán, Mónica | Navarrabiomed-HUN-UPNA | https://orcid.org/0000-0002-2890-1252 |
-| Etxegia-Apezetxea, Janire | Navarrabiomed-HUN-UPNA |  |
+| Etxegia-Apezetxea, Janire | Navarrabiomed-HUN-UPNA | https://orcid.org/0009-0004-2398-1793 |
 | Ibáñez-Beroiz, Berta | Navarrabiomed-HUN-UPNA | https://orcid.org/0000-0002-7797-4845 |
 
 __Project leader: [Ibáñez-Beroiz, Berta](https://https://orcid.org/0000-0002-7797-4845)__
 
 
 ## How to contribute
-- Issue tracker: https://github.com/metodologianavarrabiomed/CONCEPT-DIABETES/issues
-- Repository: https://github.com/metodologianavarrabiomed/CONCEPT-DIABETES
+- Issue tracker: https://github.com/metodologianavarrabiomed/evlog-fitness/issues
+- Repository: https://github.com/metodologianavarrabiomed/evlog-fitness
 
 ## References
 - Unidad de Metodología - Evaluación de Servicios Sanitarios: https://navarrabiomed.es/es/servicios/metodologia-evaluacion-de-servicios-sanitarios
