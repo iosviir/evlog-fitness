@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below:"
+title: "evlog-fitness"
+version: "0.1.0"
+date-released: "2026-04-27" 
+authors:
+- family-names: "Oscoz-Villanueva"
+  given-names: "Ignacio"
+  orcid: "https://orcid.org/0009-0004-0387-6056" 
+- family-names: "Ballesteros-Domínguez"
+  given-names: "Asier"
+  orcid: "https://orcid.org/0000-0002-2195-4669"
+- family-names: "Tamayo"
+  given-names: Ibai
+  orcid: "https://orcid.org/0000-0003-2860-3359" 
+- family-names: "Librero"
+  given-names: Julián
+  orcid: "https://orcid.org/0000-0002-4859-9054"
+- family-names: "Enguita-Germán"
+  given-names: "Mónica"
+  orcid: "https://orcid.org/0000-0002-2890-1252"
+- family-names: "Etxegia-Apezetxea"
+  given-names: "Janire"
+  orcid:
+- family-names: "Ibáñez-Beroiz"
+  given-names: "Berta"
+  orcid: "https://orcid.org/0000-0002-7797-4845" 
+url: ""
+repository-code: "https://github.com/iosviir/evlog-fitness"
+license: "CC BY 4.0 https://creativecommons.org/licenses/by/4.0/"
+    
