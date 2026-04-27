@@ -1,3 +1,28 @@
+# evlog-fitness
+
+**Event-log construction and fitness (compliance with the guidelines)**
+for longitudinal treatment data using Petri nets and PM4Py.
+
+## Features
+
+- Build event logs from:
+  - Prescription data
+  - Dispensation data (with uncertainty handling)
+- Handle:
+  - Uncertainty windows
+  - Measurement-day blocking
+  - Minimum treatment duration
+- Compute:
+  - Process mining's conformance checking's alignment-based fitness
+  - Fixed-interval or end-of-follow-up fitness
+
+## Installation (development)
+
+```bash
+git clone https://github.com/metodologianavarrabiomed/evlog-fitness.git
+cd evlog-fitness
+pip install -e .
+
 
 # Authoring
 
