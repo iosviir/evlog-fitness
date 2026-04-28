@@ -22,9 +22,9 @@ for longitudinal treatment data using Petri nets and PM4Py.
 git clone https://github.com/metodologianavarrabiomed/evlog-fitness.git
 cd evlog-fitness
 pip install -e .
+```
 
-
-# Authoring
+## Authoring
 
 | Surname, name | Affiliation | ![orcid](https://orcid.org/sites/default/files/images/orcid_16x16.png) ORCID |
 |---------------|-------------|------------------------------------------------------------------------------|
