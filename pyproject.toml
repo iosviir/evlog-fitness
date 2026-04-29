@@ -20,7 +20,6 @@ maintainers = [
 dependencies = [
   "pandas>=1.4",
   "numpy>=1.23",
-  "re>=2.2",
   "pm4py>=2.7",
   "tqdm>=4.65"
 ]
