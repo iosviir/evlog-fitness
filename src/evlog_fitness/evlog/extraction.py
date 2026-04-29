@@ -20,7 +20,7 @@ The extraction algorithm behaves like a finite-state scan over time:
 
 import numpy as np
 from typing import List, Dict
-
+import pandas as pd
 
 def column_to_treatment(
     status_matrix: np.ndarray,
@@ -59,8 +59,8 @@ def extract_event_log_from_status_matrix(
     patient_id,
     status_matrix: np.ndarray,
     date_list: List,
-    start_date: Dict,
-    fin_date: Dict,
+    case_start_date: pd.Timestamp,
+    case_fin_date: pd.Timestamp,
     events: List[str],
     measure_types: List[str],
     min_days_to_treatment_change: int,
@@ -88,11 +88,11 @@ def extract_event_log_from_status_matrix(
     date_list : list
         Ordered list of dates corresponding to matrix columns.
 
-    start_date : dict
-        Optional per-patient override for start of follow-up.
+    case_start_date : pd.Timestamp
+        Patient follow-up start date.
 
-    fin_date : dict
-        Optional per-patient override for end of follow-up.
+    case_fin_date : pd.Timestamp
+        Patient follow-up end date.
 
     events : list[str]
         List of treatment names corresponding to matrix rows.
@@ -117,13 +117,8 @@ def extract_event_log_from_status_matrix(
     """
 
     # Determine patient-specific observation wind
-    start_col = date_list.index(start_date[patient_id])
-    end_col = (
-        date_list.index(fin_date[patient_id])
-        if str(fin_date[patient_id]) != "nan"
-        else len(date_list)
-    )
-
+    start_col = date_list.index(case_start_date)
+    end_col = date_list.index(case_fin_date)
     segment_start = start_col
     day = start_col    
     # --------------------------------------------------
