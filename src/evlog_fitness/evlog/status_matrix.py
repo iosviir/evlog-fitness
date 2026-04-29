@@ -120,13 +120,11 @@ def build_event_status_matrix(
 # ---------------------------------------------------------------------
 # Measurement-only corrections (used for prescriptions)
 # ---------------------------------------------------------------------
-
-def apply_uncertainity_and_measurement_corrections(
+def apply_measurement_corrections(
     status_matrix: np.ndarray,
     measure_rows: List[int],
     non_measure_rows: List[int],
     uncertain_days_after_measure: int,
-    uncertain_max_days: int,
 ) -> np.ndarray:   
     """
     Remove spurious treatment continuations immediately
