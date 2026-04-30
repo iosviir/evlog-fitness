@@ -88,7 +88,8 @@ def evlog_preparation(
 
     # --------------------------------------------------
     # Compute case-relative days since first event
-    # --------------------------------------------------    event_log['days_since_incidence'] = event_log['days_since_baseline']    
+    # --------------------------------------------------    
+    event_log['days_since_incidence'] = event_log['days_since_baseline']    
     event_log['days_since_incidence'] = (
         event_log.groupby('case:concept:name')['days_since_incidence']
                  .transform(lambda x: x - x.min()))
