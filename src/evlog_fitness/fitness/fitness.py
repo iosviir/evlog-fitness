@@ -346,6 +346,10 @@ def calculate_fitness(
     pd.DataFrame
         DataFrame with fitness results.
     """
+    if followup_ends==None:
+        followup_ends = dict()
+    if outcomes==None:
+        outcomes = dict()
     # Prepare PM4Py-compatible event log
     event_log = evlog_preparation(
             df,
