@@ -58,7 +58,7 @@ def evlog_preparation(
     pd.DataFrame
         PM4Py-formatted event log with additional columns:
             - 'days_since_baseline'
-            - 'days_since_incidence'
+            - 'days_since_min_date'
 
     """
     
@@ -89,8 +89,8 @@ def evlog_preparation(
     # --------------------------------------------------
     # Compute case-relative days since first event
     # --------------------------------------------------    
-    event_log['days_since_incidence'] = event_log['days_since_baseline']    
-    event_log['days_since_incidence'] = (
-        event_log.groupby('case:concept:name')['days_since_incidence']
+    event_log['days_since_min_date'] = event_log['days_since_baseline']    
+    event_log['days_since_min_date'] = (
+        event_log.groupby('case:concept:name')['days_since_min_date']
                  .transform(lambda x: x - x.min()))
     return event_log

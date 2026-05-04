@@ -100,7 +100,7 @@ def _calculate_fitness_by_intervals(
         'concept:name',
         'time:timestamp',
         'days_since_baseline',
-        'days_since_incidence'
+        'days_since_min_date'
         ]].groupby('case:concept:name', sort=False)
 
     
@@ -130,7 +130,7 @@ def _calculate_fitness_by_intervals(
     
             cutoff = n * interval_days
             trace_until_cutoff = event_log_id[
-                event_log_id['days_since_incidence'] < cutoff
+                event_log_id['days_since_min_date'] < cutoff
             ]
             trace_until_cutoff = (
                 pd.concat([trace_until_cutoff, artificial_inifin],
@@ -240,7 +240,7 @@ def _calculate_fitness_at_end(
         'concept:name',
         'time:timestamp',
         'days_since_baseline',
-        'days_since_incidence'
+        'days_since_min_date'
         ]].groupby('case:concept:name', sort=False)
 
     
