@@ -19,9 +19,7 @@ for longitudinal treatment data using Petri nets and PM4Py.
 ## Installation (development)
 
 ```bash
-git clone https://github.com/metodologianavarrabiomed/evlog-fitness.git
-cd evlog-fitness
-pip install -e .
+pip install git+https://github.com/metodologianavarrabiomed/evlog-fitness.git
 ```
 
 ## Authoring
