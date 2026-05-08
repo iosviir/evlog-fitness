@@ -28,7 +28,6 @@ pip install git+https://github.com/metodologianavarrabiomed/evlog-fitness.git
 |---------------|-------------|------------------------------------------------------------------------------|
 | Unidad de Metodología | Navarrabiomed-HUN-UPNA, Instituto de Investigación Sanitaria de Navarra (IdiSNA) | |
 | Oscoz-Villanueva, Ignacio | Navarrabiomed-HUN-UPNA | https://orcid.org/0009-0004-0387-6056 |
-| Ballesteros-Domínguez, Asier |  | https://orcid.org/0000-0002-2195-4669 |
 | Tamayo, Ibai | Navarrabiomed-HUN-UPNA | https://orcid.org/0000-0003-2860-3359 |
 | Librero, Julián | Navarrabiomed-HUN-UPNA | https://orcid.org/0000-0002-4859-9054 |
 | Enguita-Germán, Mónica | Navarrabiomed-HUN-UPNA | https://orcid.org/0000-0002-2890-1252 |
