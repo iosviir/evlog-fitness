@@ -62,24 +62,24 @@ def _calculate_fitness_by_intervals(
         Parameters
         ----------
         trace_signature : tuple
-            Tuple of (activity, timestamp_int) pairs.
+            Tuple of chronologically ordered activity list
     
         Returns
         -------
         float
             Alignment fitness.
         """
-        trace_df = pd.DataFrame(
-            trace_signature,
-            columns=["concept:name", "order"]
-        )
-        # Dummy case name
-        trace_df["case:concept:name"] = "CACHED_CASE"
         
-        # Dummy timestamps (order-preserving, deterministic)
-        trace_df["time:timestamp"] = pd.to_datetime(
-            trace_df["order"], unit="D", origin="unix"
-        )
+        trace_df = pd.DataFrame({
+            "concept:name": list(trace_signature),
+            "case:concept:name": "CACHED_CASE",
+            "time:timestamp": pd.date_range(
+                "1970-01-01",
+                periods=len(trace_signature),
+                freq="D"
+            )
+        })
+
 
         alignment = pm4py.conformance_diagnostics_alignments(
             trace_df,
@@ -89,6 +89,7 @@ def _calculate_fitness_by_intervals(
         )
     
         return alignment[0]["fitness"]
+
     
     pre_INI_date = baseline-timedelta(days=1)
     post_FIN_date = endline+timedelta(days=1)
@@ -99,22 +100,23 @@ def _calculate_fitness_by_intervals(
         'case:concept:name',
         'concept:name',
         'time:timestamp',
-        'days_since_baseline',
+        # 'days_since_baseline',
         'days_since_min_date'
         ]].groupby('case:concept:name', sort=False)
 
-    
+    except_date = pd.Timestamp("2100-01-01")
     for case_id, event_log_id in tqdm(grouped):
-        case_start_days_since_baseline = event_log_id['days_since_baseline'].min()
+        # case_start_days_since_baseline = event_log_id['days_since_baseline'].min()
         case_start_date = event_log_id['time:timestamp'].min() 
-        outcome_day = outcomes.get(
+        case_fin_date = event_log_id['time:timestamp'].max()
+        outcome_day = (outcomes.get(
             case_id,
-            1000000
-            ) - case_start_days_since_baseline
-        followup_days = followup_ends.get(
+            except_date
+            ) - case_start_date).days
+        followup_days = (followup_ends.get(
             case_id,
-            (endline-baseline).days
-            ) - case_start_days_since_baseline
+            case_fin_date
+            ) - case_start_date).days
         case_followup_days = min(followup_days, outcome_day) 
         n_periods = case_followup_days//interval_days
         n_periods_r = case_followup_days/interval_days
@@ -140,13 +142,9 @@ def _calculate_fitness_by_intervals(
             )
             
             aligned_fitness = cached_alignment_fitness(
-                tuple(
-                    zip(
-                        trace_until_cutoff["concept:name"],
-                        range(len(trace_until_cutoff["concept:name"]))
-                    )
+                tuple(trace_until_cutoff["concept:name"])
                 )
-            )
+            
             
             interval_end = (
                 cutoff if n < n_periods
@@ -202,24 +200,24 @@ def _calculate_fitness_at_end(
         Parameters
         ----------
         trace_signature : tuple
-            Tuple of (activity, timestamp_int) pairs.
+            Tuple of chronologically ordered activity list
     
         Returns
         -------
         float
             Alignment fitness.
         """
-        trace_df = pd.DataFrame(
-            trace_signature,
-            columns=["concept:name", "order"]
-        )
-        # Dummy case name
-        trace_df["case:concept:name"] = "CACHED_CASE"
         
-        # Dummy timestamps (order-preserving, deterministic)
-        trace_df["time:timestamp"] = pd.to_datetime(
-            trace_df["order"], unit="D", origin="unix"
-        )
+        trace_df = pd.DataFrame({
+            "concept:name": list(trace_signature),
+            "case:concept:name": "CACHED_CASE",
+            "time:timestamp": pd.date_range(
+                "1970-01-01",
+                periods=len(trace_signature),
+                freq="D"
+            )
+        })
+
 
         alignment = pm4py.conformance_diagnostics_alignments(
             trace_df,
@@ -244,17 +242,19 @@ def _calculate_fitness_at_end(
         ]].groupby('case:concept:name', sort=False)
 
     
+    except_date = pd.Timestamp("2100-01-01")
     for case_id, event_log_id in tqdm(grouped):
-        case_start_days_since_baseline = event_log_id['days_since_baseline'].min()
+        # case_start_days_since_baseline = event_log_id['days_since_baseline'].min()
         case_start_date = event_log_id['time:timestamp'].min() 
-        outcome_day = outcomes.get(
+        case_fin_date = event_log_id['time:timestamp'].max()
+        outcome_day = (outcomes.get(
             case_id,
-            1000000
-            ) - case_start_days_since_baseline
-        followup_days = followup_ends.get(
+            except_date
+            ) - case_start_date).days
+        followup_days = (followup_ends.get(
             case_id,
-            (endline-baseline).days
-            ) - case_start_days_since_baseline
+            case_fin_date
+            ) - case_start_date).days
         case_followup_days = min(followup_days, outcome_day) 
 
         # Artificial INI / FIN events to ensure sound model replay
@@ -270,13 +270,10 @@ def _calculate_fitness_at_end(
         )
             
         aligned_fitness = cached_alignment_fitness(
-            tuple(
-                zip(
-                    event_log_id["concept:name"],
-                    range(len(event_log_id["concept:name"]))
-                )
+            tuple(event_log_id["concept:name"])
             )
-        )
+            
+        
             
         id2fitness.append({
             "ID": case_id,
@@ -301,12 +298,12 @@ def calculate_fitness(
     pnml_file: str,
     initial_place: str,
     final_place: str,
-    followup_ends: Optional[Dict] = None,
-    outcomes: Optional[Dict] = None,
+    followup_ends: Optional[Dict] = {},
+    outcomes: Optional[Dict] = {},
     case_id_key: str = "ID",
     activity_key: str = "Event",
     timestamp_key: str = "date",
-    fixed_period_days: Optional[int] = 90,
+    fixed_period_days: Optional[int] = None,
 ) -> pd.DataFrame:
     """
     Compute alignment-based conformance fitness for an event log.
@@ -332,10 +329,10 @@ def calculate_fitness(
         Name of the final place in the Petri net.
 
     followup_ends : dict, optional
-        Per-case follow-up end overrides.
+        Per-case follow-up end date.
 
     outcomes : dict, optional
-        Per-case outcome days (relative to baseline).
+        Per-case final outcome date.
 
     fixed_period_days : int or None
         Interval size in days.
@@ -346,10 +343,6 @@ def calculate_fitness(
     pd.DataFrame
         DataFrame with fitness results.
     """
-    if followup_ends==None:
-        followup_ends = dict()
-    if outcomes==None:
-        outcomes = dict()
     # Prepare PM4Py-compatible event log
     event_log = evlog_preparation(
             df,
