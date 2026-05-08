@@ -62,10 +62,12 @@ def evlog_preparation(
 
     """
     
+    filtered_df = df[df["cycle"] == "start"] if "cycle" in df.columns else df
+    
     # --------------------------------------------------
     # Format dataframe according to PM4Py conventions
     # --------------------------------------------------
-    event_log = pm4py.format_dataframe(df,
+    event_log = pm4py.format_dataframe(filtered_df,
                                 case_id=case_id_key,
                                 activity_key=activity_key,
                                 timestamp_key=timestamp_key) 
