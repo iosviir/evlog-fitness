@@ -517,6 +517,8 @@ def test_full_pipeline_prescriptions(
         pnml_file=str(pnml_file),
         initial_place="place100",
         final_place="place111",
+        initial_event="INI",
+        final_event="FIN",
         fixed_period_days=14,
     )
 

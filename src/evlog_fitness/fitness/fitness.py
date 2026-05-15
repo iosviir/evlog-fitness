@@ -39,6 +39,8 @@ def _calculate_fitness_by_intervals(
     net,
     initial_marking,
     final_marking,
+    initial_event: str,
+    final_event: str,
     baseline: pd.Timestamp,
     endline: pd.Timestamp,
     followup_ends: Dict,
@@ -125,7 +127,7 @@ def _calculate_fitness_by_intervals(
                
         # Artificial INI / FIN events to ensure sound model replay
         artificial_inifin = event_log_id.iloc[[0, -1]].copy()
-        artificial_inifin["concept:name"] = ["INI", "FIN"]
+        artificial_inifin["concept:name"] = [initial_event, final_event]
         artificial_inifin["time:timestamp"] = [pre_INI_date, post_FIN_date]
 
         for n in range(1, n_periods + 1):
@@ -178,6 +180,8 @@ def _calculate_fitness_at_end(
     net,
     initial_marking,
     final_marking,
+    initial_event: str,
+    final_event: str,
     baseline: pd.Timestamp,
     endline: pd.Timestamp,
     followup_ends: Dict,
@@ -259,7 +263,7 @@ def _calculate_fitness_at_end(
 
         # Artificial INI / FIN events to ensure sound model replay
         artificial_inifin = event_log_id.iloc[[0, -1]].copy()
-        artificial_inifin["concept:name"] = ["INI", "FIN"]
+        artificial_inifin["concept:name"] = [initial_event, final_event]
         artificial_inifin["time:timestamp"] = [pre_INI_date, post_FIN_date]
 
         event_log_id = (
@@ -298,6 +302,8 @@ def calculate_fitness(
     pnml_file: str,
     initial_place: str,
     final_place: str,
+    initial_event: str,
+    final_event: str,
     followup_ends: Optional[Dict] = {},
     outcomes: Optional[Dict] = {},
     case_id_key: str = "ID",
@@ -327,6 +333,12 @@ def calculate_fitness(
 
     final_place : str
         Name of the final place in the Petri net.
+
+    initial_event : str
+        Name of the initial event in the Petri net.
+
+    final_event : str
+        Name of the final event in the Petri net.
 
     followup_ends : dict, optional
         Per-case follow-up end date.
@@ -363,6 +375,8 @@ def calculate_fitness(
                 net, 
                 ini_marking,
                 fin_marking,
+                initial_event,
+                final_event,                
                 baseline,
                 endline,
                 followup_ends,
@@ -374,6 +388,8 @@ def calculate_fitness(
                 net, 
                 ini_marking,
                 fin_marking,
+                initial_event,
+                final_event,
                 baseline,
                 endline,
                 followup_ends,
